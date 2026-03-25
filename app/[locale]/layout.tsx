@@ -2,37 +2,42 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../i18n/routing";
-import { Analytics } from "@vercel/analytics/react"; // <--- 1. Import Analytics
+import { Analytics } from "@vercel/analytics/react";
+import Header from "../../components/Header"; // <--- 1. Import Header
+import Footer from "../../components/Footer"; // <--- 2. Import Footer
 
 import "../globals.css";
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>; // <--- Fix is here
+  params: Promise<{ locale: string }>;
 }
 
 export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProps) {
-  // Await params in Next.js 15+
   const { locale } = await params;
 
-  // Validate the incoming locale
   if (!routing.locales.includes(locale as "ru" | "en" | "de")) {
     notFound();
   }
 
-  // Fetch the dictionary for the current language
   const messages = await getMessages();
 
   return (
     <html lang={locale}>
-      <body className="bg-gray-50 antialiased">
-        {/* Wrap the app to provide translations to client components */}
+      <body className="bg-gray-50 antialiased flex flex-col min-h-screen">
         <NextIntlClientProvider messages={messages}>
-          {children}
+          {/* Main App Layout */}
+          <Header />
+
+          {/* The flex-grow ensures the footer is pushed to the bottom even if content is short */}
+          <div className="flex-grow">{children}</div>
+
+          <Footer />
         </NextIntlClientProvider>
+
         <Analytics />
       </body>
     </html>

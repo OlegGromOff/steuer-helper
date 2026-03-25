@@ -26,5 +26,17 @@
     "SEO": {
     "title": "SteuerHelper | Freelance Tax Calculator Germany",
     "description": "Calculate your real Net Income. Accurate calculation of income tax, health insurance (GKV/PKV), and pension for freelancers in Germany for 2026."
+    },
+    "Navigation": {
+    "calculator": "Calculator",
+    "articles": "Articles",
+    "news": "News",
+    "about": "About"
+  },
+  "Footer": {
+    "rights": "All rights reserved.",
+    "disclaimer": "This calculator provides estimates only. Please consult a certified tax advisor (Steuerberater) for your official tax declaration.",
+    "impressum": "Legal Notice (Impressum)",
+    "privacy": "Privacy Policy"
   }
   }

@@ -26,5 +26,17 @@
     "SEO": {
     "title": "SteuerHelper | Netto-Rechner für Freiberufler",
     "description": "Berechnen Sie Ihr echtes Netto. Präzise Berechnung von Einkommensteuer, Krankenversicherung (GKV/PKV) und Rente für Freiberufler in 2026."
-    }
+    },
+    "Navigation": {
+    "calculator": "Rechner",
+    "articles": "Artikel",
+    "news": "Nachrichten",
+    "about": "Über uns"
+  },
+  "Footer": {
+    "rights": "Alle Rechte vorbehalten.",
+    "disclaimer": "Dieser Rechner liefert nur Schätzungen. Für eine verbindliche Steuererklärung wenden Sie sich bitte an einen Steuerberater.",
+    "impressum": "Impressum",
+    "privacy": "Datenschutzerklärung"
+  }
   }
