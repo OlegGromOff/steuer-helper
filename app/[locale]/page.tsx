@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import TaxCalculator from "../../components/TaxCalculator";
 
-// 1. Updated interface for Next.js 15 (params is a Promise)
 interface LocalePageProps {
   params: Promise<{ locale: string }>;
 }
@@ -11,6 +10,7 @@ export async function generateMetadata({ params }: LocalePageProps) {
   const t = await getTranslations({ locale, namespace: "SEO" });
 
   const baseUrl = "https://steuer-helper.vercel.app";
+  const imageUrl = `${baseUrl}/og.jpg`;
 
   return {
     metadataBase: new URL(baseUrl),
@@ -21,6 +21,14 @@ export async function generateMetadata({ params }: LocalePageProps) {
       description: t("description"),
       url: baseUrl,
       siteName: "SteuerHelper",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: "SteuerHelper Preview",
+        },
+      ],
       locale: locale,
       type: "website",
     },
@@ -28,6 +36,7 @@ export async function generateMetadata({ params }: LocalePageProps) {
       card: "summary_large_image",
       title: t("title"),
       description: t("description"),
+      images: [imageUrl],
     },
   };
 }
