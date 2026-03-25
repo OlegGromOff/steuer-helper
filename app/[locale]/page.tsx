@@ -20,7 +20,7 @@ export async function generateMetadata({
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: "https://steuerhelper-oleg.vercel.app", // Update this later when we deploy
+      url: "https://steuer-helper.vercel.app", // Update this later when we deploy
       siteName: "SteuerHelper",
       images: [
         {
