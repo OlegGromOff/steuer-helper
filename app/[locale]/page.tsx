@@ -12,6 +12,7 @@ export async function generateMetadata({
 
   // Fetch translations for the server component using the "SEO" namespace
   const t = await getTranslations({ locale, namespace: "SEO" });
+  const baseUrl = "https://steuer-helper.vercel.app";
 
   return {
     title: t("title"),
@@ -20,11 +21,11 @@ export async function generateMetadata({
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: "https://steuer-helper.vercel.app", // Update this later when we deploy
+      url: baseUrl,
       siteName: "SteuerHelper",
       images: [
         {
-          url: "/og-image.png", // Path to your preview image in the public folder
+          url: `${baseUrl}/og-image.png`, // Path to your preview image in the public folder
           width: 1200,
           height: 630,
           alt: "SteuerHelper Preview",
@@ -38,7 +39,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: t("title"),
       description: t("description"),
-      images: ["/og-image.png"],
+      images: [`${baseUrl}/og-image.png`],
     },
   };
 }
