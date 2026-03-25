@@ -4,12 +4,20 @@ import { notFound } from "next/navigation";
 import { routing } from "../../i18n/routing";
 import "../globals.css"; // Make sure Tailwind styles are connected
 
-export default async function LocaleLayout({ children, params }) {
+interface LocaleLayoutProps {
+  children: React.ReactNode;
+  params: { locale: string };
+}
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: LocaleLayoutProps) {
   // Await params in Next.js 15+
   const { locale } = await params;
 
   // Validate the incoming locale
-  if (!routing.locales.includes(locale)) {
+  if (!routing.locales.includes(locale as "ru" | "en" | "de")) {
     notFound();
   }
 

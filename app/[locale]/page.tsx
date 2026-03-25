@@ -2,7 +2,11 @@ import { getTranslations } from "next-intl/server";
 import TaxCalculator from "../../components/TaxCalculator";
 
 // 1. Define asynchronous function to generate dynamic metadata based on locale
-export async function generateMetadata({ params }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}) {
   // Await params in Next.js 15+
   const { locale } = await params;
 
