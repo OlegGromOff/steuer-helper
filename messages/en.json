@@ -1,0 +1,30 @@
+{
+    "Calculator": {
+      "title": "SteuerHelper MVP 2026",
+      "subtitle": "Freelance Tax & Net Income Calculator for Germany",
+      "details": "Your Details",
+      "brutto": "Annual Gross Income (Brutto): €{amount}",
+      "taxClass": "Tax Class (Steuerklasse)",
+      "familyStatus": "Family Status",
+      "married": "Married",
+      "children": "Has Children",
+      "healthInsurance": "Health Insurance",
+      "public": "Public (GKV)",
+      "private": "Private (PKV)",
+      "pvkWarning": "Note: PKV might be cheaper now, but costs rise with age. Children and non-working spouses require separate policies. Returning to GKV after 55 is nearly impossible.",
+      "pension": "Include Pension Fund",
+      "pensionDesc": "Voluntary for most freelancers (18.6%)",
+      "result": "Your Result",
+      "netto": "Estimated Netto",
+      "perYear": "per year",
+      "tax": "Income Tax (Finanzamt)",
+      "cta": "Ready to file your taxes safely?",
+      "btn": "Get 20% off Accountable",
+      "bruttoLabel": "Annual Gross Income (Brutto)",
+      "classPrefix": "Class"
+    },
+    "SEO": {
+    "title": "SteuerHelper | Freelance Tax Calculator Germany",
+    "description": "Calculate your real Net Income. Accurate calculation of income tax, health insurance (GKV/PKV), and pension for freelancers in Germany for 2026."
+  }
+  }

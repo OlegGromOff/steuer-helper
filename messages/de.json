@@ -1,0 +1,30 @@
+{
+    "Calculator": {
+      "title": "SteuerHelper MVP 2026",
+      "subtitle": "Steuer- und Nettorechner für Freiberufler in Deutschland",
+      "details": "Ihre Daten",
+      "brutto": "Jahresbruttoeinkommen: €{amount}",
+      "taxClass": "Steuerklasse",
+      "familyStatus": "Familienstand",
+      "married": "Verheiratet",
+      "children": "Kinder",
+      "healthInsurance": "Krankenversicherung",
+      "public": "Gesetzliche (GKV)",
+      "private": "Private (PKV)",
+      "pvkWarning": "Achtung: PKV kann jetzt günstiger sein, aber die Kosten steigen im Alter. Kinder und nicht erwerbstätige Ehepartner müssen separat versichert werden. Eine Rückkehr in die GKV nach 55 ist fast unmöglich.",
+      "pension": "Rentenversicherung",
+      "pensionDesc": "Freiwillig für Freiberufler (18.6%)",
+      "result": "Ihr Ergebnis",
+      "netto": "Geschätztes Netto",
+      "perYear": "pro Jahr",
+      "tax": "Einkommensteuer (Finanzamt)",
+      "cta": "Bereit für die Steuererklärung?",
+      "btn": "20% Rabatt auf Accountable sichern",
+      "bruttoLabel": "Jahresbruttoeinkommen",
+      "classPrefix": "Klasse"
+    },
+    "SEO": {
+    "title": "SteuerHelper | Netto-Rechner für Freiberufler",
+    "description": "Berechnen Sie Ihr echtes Netto. Präzise Berechnung von Einkommensteuer, Krankenversicherung (GKV/PKV) und Rente für Freiberufler in 2026."
+    }
+  }
