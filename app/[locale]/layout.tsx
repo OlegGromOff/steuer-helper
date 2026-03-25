@@ -6,7 +6,7 @@ import "../globals.css"; // Make sure Tailwind styles are connected
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>; // <--- Fix is here
 }
 
 export default async function LocaleLayout({
