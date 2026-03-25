@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "../i18n/routing";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
@@ -32,7 +32,7 @@ export default function Header() {
             {t("calculator")}
           </Link>
           <Link
-            href="#articles"
+            href="/articles"
             className="hover:text-emerald-500 transition-colors"
           >
             {t("articles")}
@@ -110,7 +110,7 @@ export default function Header() {
               {t("calculator")}
             </Link>
             <Link
-              href="#articles"
+              href="/articles"
               onClick={toggleMenu}
               className="hover:text-emerald-500 transition-colors block text-lg"
             >

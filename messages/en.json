@@ -21,7 +21,10 @@
       "cta": "Ready to file your taxes safely?",
       "btn": "Get 20% off Accountable",
       "bruttoLabel": "Annual Gross Income (Brutto)",
-      "classPrefix": "Class"
+      "classPrefix": "Class",
+      "ageLabel": "Your age",
+      "years": "years",
+      "ageWarning": "* PKV costs depend directly on your age."
     },
     "SEO": {
     "title": "SteuerHelper | Freelance Tax Calculator Germany",
@@ -38,5 +41,26 @@
     "disclaimer": "This calculator provides estimates only. Please consult a certified tax advisor (Steuerberater) for your official tax declaration.",
     "impressum": "Legal Notice (Impressum)",
     "privacy": "Privacy Policy"
+  },
+  "Blog": {
+    "title": "Knowledge Base",
+    "subtitle": "Guides, tips, and news about taxes and freelancer life in Germany.",
+    "readMore": "Read article →",
+    "readTime": "{minutes} min read",
+    "article1": {
+      "title": "Steuerklasse 3 or 5: How to choose the best tax class?",
+      "excerpt": "Breaking down real examples of who benefits from Ehegattensplitting and who should stay on 4/4.",
+      "category": "Guides"
+    },
+    "article2": {
+      "title": "GKV vs PKV: The Private Insurance Trap",
+      "excerpt": "Why private insurance seems like a great deal at 30, and how it can bankrupt you at 60.",
+      "category": "Health"
+    },
+    "article3": {
+      "title": "How to legally reduce your taxes (Absetzen) in 2026",
+      "excerpt": "A list of 10 non-obvious things freelancers can deduct from their taxes this year.",
+      "category": "Lifehacks"
+    }
   }
   }

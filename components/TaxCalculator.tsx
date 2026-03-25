@@ -14,6 +14,7 @@ export default function TaxCalculator() {
   const [hasChildren, setHasChildren] = useState(false);
   const [insuranceType, setInsuranceType] = useState("public");
   const [includePension, setIncludePension] = useState(false);
+  const [age, setAge] = useState<number>(30); // Added age state
 
   // Handler for manual input to prevent typing letters or symbols
   const handleBruttoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +23,25 @@ export default function TaxCalculator() {
     setBrutto(Number(cleanValue));
   };
 
-  // 2. Pro-level Tax Calculation Logic (Real German BMF Formulas approximation for 2026)
+  // Smart handler to enforce German tax class logic
+  const handleTaxClassChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newClass = Number(e.target.value);
+    setTaxClass(newClass);
+
+    // Enforce Marriage rules
+    if ([3, 4, 5].includes(newClass)) {
+      setIsMarried(true);
+    } else if ([1, 2].includes(newClass)) {
+      setIsMarried(false);
+    }
+
+    // Enforce Children rules
+    if (newClass === 2) {
+      setHasChildren(true);
+    }
+  };
+
+  // 2. Pro-level Tax Calculation Logic
   const calculations = useMemo(() => {
     let tax = 0;
     let health = 0;
@@ -55,20 +74,16 @@ export default function TaxCalculator() {
 
     // --- A. Apply Tax Class Rules to calculate Income Tax ---
     if (taxClass === 1 || taxClass === 4) {
-      // Standard Grundtarif
       tax = calculateBaseTax(brutto);
-    } else if (taxClass === 2 && hasChildren) {
-      // Entlastungsbetrag für Alleinerziehende (4260 € deduction before tax)
+    } else if (taxClass === 2) {
       const adjustedIncome = Math.max(0, brutto - 4260);
       tax = calculateBaseTax(adjustedIncome);
-    } else if (taxClass === 3 && isMarried) {
-      // Ehegattensplitting: Splittingtarif (Income / 2, calculate, then * 2)
-      // Assumes spouse has 0 income for this single-input calculator
+    } else if (taxClass === 3) {
       tax = calculateBaseTax(brutto / 2) * 2;
     } else if (taxClass === 5 || taxClass === 6) {
-      // Classes 5 & 6 have NO tax-free allowance.
-      // We simulate this by taxing from euro 1 (skipping the 12348 deduction).
       tax = calculateBaseTax(brutto + 12348);
+    } else {
+      tax = calculateBaseTax(brutto);
     }
 
     // --- B. Calculate Health & Care Insurance for 2026 ---
@@ -76,7 +91,10 @@ export default function TaxCalculator() {
       const healthBase = Math.min(brutto, 69750); // Beitragsbemessungsgrenze
       health = healthBase * 0.197;
     } else {
-      health = 6000; // Flat PKV estimate
+      // PKV logic: base cost + increase based on age
+      const basePKV = 350 * 12; // 4200€ / year base
+      const ageSurcharge = Math.max(0, age - 25) * 15 * 12; // +15€/mo for every year over 25
+      health = basePKV + ageSurcharge;
     }
 
     // --- C. Calculate Pension Insurance for 2026 ---
@@ -94,12 +112,20 @@ export default function TaxCalculator() {
       pension: Math.round(pension),
       netto: Math.round(netto),
     };
-  }, [brutto, taxClass, isMarried, hasChildren, insuranceType, includePension]);
+  }, [
+    brutto,
+    taxClass,
+    isMarried,
+    hasChildren,
+    insuranceType,
+    includePension,
+    age,
+  ]);
 
   const { tax, health, pension, netto } = calculations;
 
   return (
-    <div className="max-w-6xl mx-auto p-6 font-sans antialiased">
+    <div className="max-w-6xl mx-auto p-6 font-sans antialiased text-gray-900">
       <div className="mb-10 text-center">
         <h1 className="text-4xl font-extrabold text-gray-950 tracking-tight">
           {t("title")}
@@ -118,25 +144,22 @@ export default function TaxCalculator() {
           <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-5 gap-3">
               <label className="block text-base font-semibold text-gray-800">
-                {/* Dynamically translated label */}
                 {t("bruttoLabel")}
               </label>
 
-              {/* Manual Number Input */}
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">
                   €
                 </span>
                 <input
                   type="text"
-                  value={brutto === 0 ? "" : brutto} // Allow empty field when deleting
+                  value={brutto === 0 ? "" : brutto}
                   onChange={handleBruttoChange}
                   className="w-full sm:w-40 pl-9 pr-4 py-2 text-lg font-bold text-gray-900 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 />
               </div>
             </div>
 
-            {/* Range Slider */}
             <input
               type="range"
               min="0"
@@ -158,18 +181,36 @@ export default function TaxCalculator() {
               <label className="block text-sm font-semibold text-gray-800 mb-3">
                 {t("taxClass")}
               </label>
-              <select
-                value={taxClass}
-                onChange={(e) => setTaxClass(Number(e.target.value))}
-                className="w-full p-4 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400 text-gray-900"
-              >
-                {[1, 2, 3, 4, 5, 6].map((cl) => (
-                  <option key={cl} value={cl}>
-                    {/* Dynamically translated prefix for Tax Class */}
-                    {t("classPrefix")} {cl}
-                  </option>
-                ))}
-              </select>
+
+              <div className="relative">
+                <select
+                  value={taxClass}
+                  onChange={handleTaxClassChange}
+                  className="w-full py-4 pl-4 pr-12 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400 text-gray-900 outline-none transition-all appearance-none cursor-pointer"
+                >
+                  {[1, 2, 3, 4, 5, 6].map((cl) => (
+                    <option key={cl} value={cl}>
+                      {t("classPrefix")} {cl}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             {/* Family Status */}
@@ -178,23 +219,38 @@ export default function TaxCalculator() {
                 {t("familyStatus")}
               </label>
               <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-gray-50 border border-gray-100 rounded-xl hover:bg-gray-100 transition-colors">
+                <label
+                  className={`flex items-center gap-3 p-4 border rounded-xl transition-colors ${
+                    [1, 2, 3, 4, 5].includes(taxClass)
+                      ? "bg-gray-100 border-gray-200 cursor-not-allowed opacity-70"
+                      : "bg-gray-50 border-gray-100 cursor-pointer hover:bg-gray-100"
+                  }`}
+                >
                   <input
                     type="checkbox"
                     checked={isMarried}
                     onChange={(e) => setIsMarried(e.target.checked)}
-                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                    disabled={[1, 2, 3, 4, 5].includes(taxClass)}
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 disabled:opacity-50"
                   />
                   <span className="text-gray-800 font-medium">
                     {t("married")}
                   </span>
                 </label>
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-gray-50 border border-gray-100 rounded-xl hover:bg-gray-100 transition-colors">
+
+                <label
+                  className={`flex items-center gap-3 p-4 border rounded-xl transition-colors ${
+                    taxClass === 2
+                      ? "bg-gray-100 border-gray-200 cursor-not-allowed opacity-70"
+                      : "bg-gray-50 border-gray-100 cursor-pointer hover:bg-gray-100"
+                  }`}
+                >
                   <input
                     type="checkbox"
                     checked={hasChildren}
                     onChange={(e) => setHasChildren(e.target.checked)}
-                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                    disabled={taxClass === 2}
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 disabled:opacity-50"
                   />
                   <span className="text-gray-800 font-medium">
                     {t("children")}
@@ -204,7 +260,7 @@ export default function TaxCalculator() {
             </div>
           </div>
 
-          {/* Insurance Type with PKV Warning */}
+          {/* Insurance Type */}
           <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
             <label className="block text-sm font-semibold text-gray-800 mb-4">
               {t("healthInsurance")}
@@ -234,18 +290,42 @@ export default function TaxCalculator() {
                   <span className="font-medium text-gray-800">
                     {t("private")}
                   </span>
-                  {/* Tooltip [i] icon */}
                   <span className="text-blue-500 font-bold cursor-help ml-1">
                     [i]
                   </span>
                 </div>
-                {/* Tooltip text - visible on hover */}
                 <div className="absolute bottom-full mb-3 left-0 bg-gray-900 text-white text-xs p-4 rounded-xl shadow-xl w-72 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none">
                   {t("pvkWarning")}
                   <div className="absolute top-full left-5 border-4 border-transparent border-t-gray-900"></div>
                 </div>
               </label>
             </div>
+
+            {/* Age Selection - Logic added here */}
+            {insuranceType === "private" && (
+              <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-100 animate-in fade-in slide-in-from-top-2">
+                <div className="flex justify-between items-center mb-3">
+                  <label className="text-sm font-semibold text-blue-900">
+                    {t("ageLabel")}
+                  </label>
+                  <span className="text-lg font-bold text-blue-600">
+                    {age} {t("years")}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="18"
+                  max="65"
+                  step="1"
+                  value={age}
+                  onChange={(e) => setAge(Number(e.target.value))}
+                  className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+                <p className="text-[10px] text-blue-700 mt-2 uppercase tracking-wide italic">
+                  {t("ageWarning")}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Pension Checkbox */}
@@ -312,11 +392,10 @@ export default function TaxCalculator() {
             </div>
           </div>
 
-          {/* CTA Box */}
           <div className="mt-12 bg-white/5 p-6 rounded-2xl text-center border border-white/10">
             <p className="text-sm text-gray-300 mb-4">{t("cta")}</p>
             <button className="w-full bg-white text-gray-950 font-bold py-3 px-6 rounded-xl hover:bg-gray-100 transition-colors text-lg">
-              {t("btn")}
+              {/* {t("btn")} */}
             </button>
           </div>
         </div>

@@ -21,7 +21,10 @@
       "cta": "Bereit für die Steuererklärung?",
       "btn": "20% Rabatt auf Accountable sichern",
       "bruttoLabel": "Jahresbruttoeinkommen",
-      "classPrefix": "Klasse"
+      "classPrefix": "Klasse",
+      "ageLabel": "Ihr Alter",
+      "years": "Jahre",
+      "ageWarning": "* Die Kosten der PKV hängen direkt von Ihrem Eintrittsalter ab."
     },
     "SEO": {
     "title": "SteuerHelper | Netto-Rechner für Freiberufler",
@@ -38,5 +41,26 @@
     "disclaimer": "Dieser Rechner liefert nur Schätzungen. Für eine verbindliche Steuererklärung wenden Sie sich bitte an einen Steuerberater.",
     "impressum": "Impressum",
     "privacy": "Datenschutzerklärung"
+  },
+  "Blog": {
+    "title": "Wissensdatenbank",
+    "subtitle": "Ratgeber, Tipps und News rund um Steuern und das Freelancer-Leben in Deutschland.",
+    "readMore": "Artikel lesen →",
+    "readTime": "{minutes} Min. Lesezeit",
+    "article1": {
+      "title": "Steuerklasse 3 oder 5: Wie wählt man die richtige Steuerklasse?",
+      "excerpt": "Wir erklären an echten Beispielen, für wen sich das Ehegattensplitting lohnt und wer besser in 4/4 bleibt.",
+      "category": "Ratgeber"
+    },
+    "article2": {
+      "title": "GKV vs. PKV: Die Falle der privaten Krankenversicherung",
+      "excerpt": "Warum die PKV mit 30 wie ein Schnäppchen wirkt und wie sie Sie mit 60 ruinieren kann.",
+      "category": "Gesundheit"
+    },
+    "article3": {
+      "title": "Steuern legal senken (Absetzen) im Jahr 2026",
+      "excerpt": "Eine Liste von 10 nicht offensichtlichen Dingen, die Freiberufler dieses Jahr von der Steuer absetzen können.",
+      "category": "Lifehacks"
+    }
   }
   }
